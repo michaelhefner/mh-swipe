@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <viewpoint width="device-width" initial-scale="1.0"></viewpoint>
+    <title>test swipe</title>
+  </head>
+  <body>
+    <div id="swipe">
+      <div class="swipe-wrap">
+        <div class="swipe-item"></div>
+        <div class="swipe-item"></div>
+        <div class="swipe-item"></div>
+      </div>
+    </div>
+  </body>
+  <script>
+    var swipe = document.getElementById("swipe");
+    var swipeWrap = document.querySelector(".swipe-wrap");
+    var swipeItem = document.querySelectorAll(".swipe-item");
+    var swipeItemLength = swipeItem.length;
+    var swipeItemWidth = swipeItem[0].offsetWidth;
+    var swipeItemMove = 0;
+    var swipeItemMoveMax = swipeItemLength - 1;
+    var swipeItemMoveStartX = 0;
+    var swipeItemMoveEndX = 0;
+    var swipeItemMoveStartY = 0;
+    var swipeItemMoveEndY = 0;
+
+    swipeWrap.addEventListener("touchstart", (e) => {
+      swipeItemMoveStartX = e.touches[0].pageX;
+      swipeItemMoveStartY = e.touches[0].pageY;
+      console.log("touchstart", swipeItemMoveStartX);
+    });
+    swipeWrap.addEventListener("touchend", (e) => {
+      swipeItemMoveEndX = e.changedTouches[0].pageX;
+      swipeItemMoveEndY = e.changedTouches[0].pageY;
+      console.log("touchend", swipeItemMoveEndX);
+      if (
+        Math.abs(swipeItemMoveStartX - swipeItemMoveEndX) > 50 &&
+        Math.abs(swipeItemMoveStartY - swipeItemMoveEndY) < 75
+      ) {
+        if (swipeItemMoveStartX > swipeItemMoveEndX) {
+          swipeItemMove++;
+          if (swipeItemMove === swipeItemLength) {
+            swipeItemMove = 0;
+          }
+        } else {
+          if (swipeItemMove === 0) {
+            swipeItemMove = swipeItemLength;
+          }
+          swipeItemMove--;
+        }
+
+        swipeWrap.style.marginLeft = `-${swipeItemMove * 100}vw`;
+        console.log("swipeItemMove", swipeItemMove);
+      }
+    });
+  </script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    #swipe {
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+    .swipe-wrap {
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      transition: all 0.5s ease-in-out;
+    }
+    .swipe-item {
+      height: 30vh;
+      width: 100vw;
+      min-width: 100vw;
+    }
+    .swipe-item:nth-child(1) {
+      background: #f00;
+    }
+    .swipe-item:nth-child(2) {
+      background: #0f0;
+    }
+    .swipe-item:nth-child(3) {
+      background: #00f;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      min-width: 100vw;
+      min-height: 100vh;
+      background-color: #000;
+      overflow: hidden;
+    }
+  </style>
+</html>
