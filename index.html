@@ -29,26 +29,26 @@
     swipeWrap.addEventListener("touchstart", (e) => {
       swipeItemMoveStartX = e.touches[0].pageX;
       swipeItemMoveStartY = e.touches[0].pageY;
-      console.log("touchstart", swipeItemMoveStartX);
     });
     swipeWrap.addEventListener("touchend", (e) => {
       swipeItemMoveEndX = e.changedTouches[0].pageX;
       swipeItemMoveEndY = e.changedTouches[0].pageY;
-      console.log("touchend", swipeItemMoveEndX);
+      console.log("touchstart - x", swipeItemMoveStartX);
+      console.log("touchend - x", swipeItemMoveEndY);
+      console.log("touchstart - y", swipeItemMoveStartY);
+      console.log("touchstart - y", swipeItemMoveStartY);
       if (
-        Math.abs(swipeItemMoveStartX - swipeItemMoveEndX) > 50 &&
+        Math.abs(swipeItemMoveStartX - swipeItemMoveEndX) > 25 &&
         Math.abs(swipeItemMoveStartY - swipeItemMoveEndY) < 75
       ) {
         if (swipeItemMoveStartX > swipeItemMoveEndX) {
-          swipeItemMove++;
-          if (swipeItemMove === swipeItemLength) {
-            swipeItemMove = 0;
+          if (swipeItemMove !== swipeItemLength - 1) {
+            swipeItemMove++;
           }
         } else {
-          if (swipeItemMove === 0) {
-            swipeItemMove = swipeItemLength;
+          if (swipeItemMove !== 0) {
+            swipeItemMove--;
           }
-          swipeItemMove--;
         }
 
         swipeWrap.style.marginLeft = `-${swipeItemMove * 100}vw`;
@@ -74,7 +74,7 @@
       transition: all 0.5s ease-in-out;
     }
     .swipe-item {
-      height: 30vh;
+      height: 50vh;
       width: 100vw;
       min-width: 100vw;
     }
