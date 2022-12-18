@@ -14,45 +14,44 @@
     </div>
   </body>
   <script>
-    var swipe = document.getElementById("swipe");
-    var swipeWrap = document.querySelector(".swipe-wrap");
-    var swipeItem = document.querySelectorAll(".swipe-item");
-    var swipeItemLength = swipeItem.length;
-    var swipeItemWidth = swipeItem[0].offsetWidth;
-    var swipeItemMove = 0;
-    var swipeItemMoveMax = swipeItemLength - 1;
-    var swipeItemMoveStartX = 0;
-    var swipeItemMoveEndX = 0;
-    var swipeItemMoveStartY = 0;
-    var swipeItemMoveEndY = 0;
+    const swipe = {
+      wrap: document.querySelector(".swipe-wrap"),
+      items: document.querySelectorAll(".swipe-item"),
+      width: document.querySelectorAll(".swipe-item")[0].offsetWidth,
+      move: 0,
+      moveMax: document.querySelectorAll(".swipe-item")[0].length - 1,
+      moveStart: { x: 0, y: 0 },
+      moveEnd: { x: 0, y: 0 },
+    };
 
-    swipeWrap.addEventListener("touchstart", (e) => {
-      swipeItemMoveStartX = e.touches[0].pageX;
-      swipeItemMoveStartY = e.touches[0].pageY;
+    swipe.wrap.addEventListener("touchstart", (e) => {
+      swipe.moveStart.x = e.touches[0].pageX;
+      swipe.moveStart.y = e.touches[0].pageY;
     });
-    swipeWrap.addEventListener("touchend", (e) => {
-      swipeItemMoveEndX = e.changedTouches[0].pageX;
-      swipeItemMoveEndY = e.changedTouches[0].pageY;
-      console.log("touchstart - x", swipeItemMoveStartX);
-      console.log("touchend - x", swipeItemMoveEndY);
-      console.log("touchstart - y", swipeItemMoveStartY);
-      console.log("touchstart - y", swipeItemMoveStartY);
+    swipe.wrap.addEventListener("touchend", (e) => {
+      swipe.moveEnd.x = e.changedTouches[0].pageX;
+      swipe.moveEnd.y = e.changedTouches[0].pageY;
+      console.log("touchstart - x", swipe.moveStart.x);
+      console.log("touchend - x", swipe.moveEnd.y);
+      console.log("touchstart - y", swipe.moveStart.y);
+      console.log("touchstart - y", swipe.moveStart.y);
       if (
-        Math.abs(swipeItemMoveStartX - swipeItemMoveEndX) > 25 &&
-        Math.abs(swipeItemMoveStartY - swipeItemMoveEndY) < 75
+        Math.abs(swipe.moveStart.x - swipe.moveEnd.x) >
+          window.innerWidth / 10 &&
+        Math.abs(swipe.moveStart.y - swipe.moveEnd.y) < window.innerHeight / 28
       ) {
-        if (swipeItemMoveStartX > swipeItemMoveEndX) {
-          if (swipeItemMove !== swipeItemLength - 1) {
-            swipeItemMove++;
+        if (swipe.moveStart.x > swipe.moveEnd.x) {
+          if (swipe.move !== swipe.items.length - 1) {
+            swipe.move += 1;
           }
         } else {
-          if (swipeItemMove !== 0) {
-            swipeItemMove--;
+          if (swipe.move !== 0) {
+            swipe.move -= 1;
           }
         }
 
-        swipeWrap.style.marginLeft = `-${swipeItemMove * 100}vw`;
-        console.log("swipeItemMove", swipeItemMove);
+        swipe.wrap.style.marginLeft = `-${swipe.move * 100}vw`;
+        console.log("swipe.move", swipe.move);
       }
     });
   </script>
