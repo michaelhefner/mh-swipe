@@ -31,20 +31,20 @@
     swipe.wrap.addEventListener("touchmove", (e) => {
       swipe.allowRight = swipe.move === 2 ? false : true;
       swipe.allowLeft = swipe.move === 0 ? false : true;
-      if (e.touches[0].pageX > swipe.moveStart.x) {
+      if (e.touches[0].pageX > swipe.moveStart.x ) {
         if (swipe.allowLeft) {
-          swipe.wrap.style.marginLeft =
-            e.touches[0].pageX -
+          swipe.wrap.style.left =
+            -e.touches[0].pageX +
             swipe.moveStart.x +
-            swipe.width * swipe.move +
+            swipe.width * swipe.move * 1.5 +
             "px";
         }
       } else {
         if (swipe.allowRight) {
-          swipe.wrap.style.marginLeft =
+          swipe.wrap.style.left =
             e.touches[0].pageX -
             swipe.moveStart.x +
-            swipe.width * swipe.move * -1 +
+            swipe.width * swipe.move / -1.5 +
             "px";
         }
       }
@@ -72,6 +72,9 @@
         }
       }
       swipe.wrap.style.marginLeft = `-${swipe.move * 100}vw`;
+      swipe.wrap.style.left = 0;
+      swipe.moveEnd.x = 0;
+      swipe.moveEnd.y = 0;
     });
   </script>
   <style>
