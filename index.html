@@ -19,7 +19,7 @@
       items: document.querySelectorAll(".swipe-item"),
       width: document.querySelectorAll(".swipe-item")[0].offsetWidth,
       move: 0,
-      speed: 1000,
+      speed: 500,
       moveMax: document.querySelectorAll(".swipe-item")[0].length - 1,
       moveStart: { x: 0, y: 0 },
       moveEnd: { x: 0, y: 0 },
@@ -31,11 +31,12 @@
     swipe.wrap.addEventListener("touchmove", (e) => {
       swipe.allowRight = swipe.move === 2 ? false : true;
       swipe.allowLeft = swipe.move === 0 ? false : true;
-      if (e.touches[0].pageX > swipe.moveStart.x ) {
+      if (e.touches[0].pageX > swipe.moveStart.x) {
         if (swipe.allowLeft) {
           swipe.wrap.style.marginLeft =
             e.touches[0].pageX -
-            swipe.moveStart.x + swipe.speed +
+            swipe.moveStart.x +
+            swipe.speed +
             window.innerWidth * swipe.move * -1 +
             "px";
         }
@@ -43,16 +44,23 @@
         if (swipe.allowRight) {
           swipe.wrap.style.marginLeft =
             e.touches[0].pageX -
-            swipe.moveStart.x - swipe.speed +
-            window.innerWidth * swipe.move / -1 +
+            swipe.moveStart.x -
+            swipe.speed +
+            (window.innerWidth * swipe.move) / -1 +
             "px";
         }
       }
     });
+
     swipe.wrap.addEventListener("touchstart", (e) => {
       swipe.moveStart.x = e.touches[0].pageX;
       swipe.moveStart.y = e.touches[0].pageY;
     });
+
+    /*
+    Swipe to the left or right
+    */
+
     swipe.wrap.addEventListener("touchend", (e) => {
       swipe.moveEnd.x = e.changedTouches[0].pageX;
       swipe.moveEnd.y = e.changedTouches[0].pageY;
@@ -72,6 +80,9 @@
         }
       }
       swipe.wrap.style.marginLeft = `-${swipe.move * 100}vw`;
+      /*
+      Reset the position of the swipe-wrap
+      */
       swipe.wrap.style.left = 0;
       swipe.moveEnd.x = 0;
       swipe.moveEnd.y = 0;
