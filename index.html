@@ -19,7 +19,7 @@
       items: document.querySelectorAll(".swipe-item"),
       width: document.querySelectorAll(".swipe-item")[0].offsetWidth,
       move: 0,
-      speed: 500,
+      speed: 250,
       moveMax: document.querySelectorAll(".swipe-item")[0].length - 1,
       moveStart: { x: 0, y: 0 },
       moveEnd: { x: 0, y: 0 },
@@ -103,7 +103,7 @@
       display: flex;
       flex-direction: row;
       width: 100%;
-      transition: all 0.2s ease-in-out;
+      transition: all 0.35s ease;
     }
     .swipe-item {
       height: 50vh;
