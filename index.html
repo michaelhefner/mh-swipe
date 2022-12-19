@@ -32,7 +32,7 @@
       swipe.allowRight = swipe.move === 2 ? false : true;
       swipe.allowLeft = swipe.move === 0 ? false : true;
       if (e.touches[0].pageX > swipe.moveStart.x) {
-        if (swipe.allowRight) {
+        if (swipe.allowLeft) {
           swipe.wrap.style.marginLeft =
             e.touches[0].pageX -
             swipe.moveStart.x +
@@ -40,7 +40,7 @@
             "px";
         }
       } else {
-        if (swipe.allowLeft) {
+        if (swipe.allowRight) {
           swipe.wrap.style.marginLeft =
             e.touches[0].pageX -
             swipe.moveStart.x +
