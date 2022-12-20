@@ -26,6 +26,7 @@
         width: document.querySelectorAll(".swipe-item")[0].offsetWidth,
         move: 0,
         speed: 250,
+        moveSensitivity: 0.8,
         moveMax: document.querySelectorAll(".swipe-item")[0].length - 1,
         moveStart: { x: 0, y: 0 },
         moveEnd: { x: 0, y: 0 },
@@ -43,7 +44,7 @@
               e.touches[0].pageX -
               swipe.moveStart.x +
               swipe.speed +
-              window.innerWidth * swipe.move * -1 +
+              window.innerWidth * swipe.move * -1 * swipe.moveSensitivity +
               "px";
           }
         } else {
@@ -52,7 +53,7 @@
               e.touches[0].pageX -
               swipe.moveStart.x -
               swipe.speed +
-              (window.innerWidth * swipe.move) / -1 +
+              (window.innerWidth * swipe.move) * -1 * swipe.moveSensitivity +
               "px";
           }
         }
