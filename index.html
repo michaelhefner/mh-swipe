@@ -7,176 +7,179 @@
   <body>
     <div id="swipe">
       <div class="swipe-wrap">
-        <div class="swipe-item"><picture><img src='./img/1.jpeg'/></picture></div>
-        <div class="swipe-item"><picture><img src='./img/2.jpg'/></picture></div>
-        <div class="swipe-item"><picture><img src='./img/3.jpg'/></picture></div>
+        <div class="swipe-item">
+          <picture><img src="./img/1.jpeg" /></picture>
+        </div>
+        <div class="swipe-item">
+          <picture><img src="./img/2.jpg" /></picture>
+        </div>
+        <div class="swipe-item">
+          <picture><img src="./img/3.jpg" /></picture>
+        </div>
       </div>
-      <div class="indicator-container">
+      <div class="indicator-container"></div>
     </div>
-  </body>
-  <script>
-    const swipe = {
-      wrap: document.querySelector(".swipe-wrap"),
-      items: document.querySelectorAll(".swipe-item"),
-      width: document.querySelectorAll(".swipe-item")[0].offsetWidth,
-      move: 0,
-      speed: 250,
-      moveMax: document.querySelectorAll(".swipe-item")[0].length - 1,
-      moveStart: { x: 0, y: 0 },
-      moveEnd: { x: 0, y: 0 },
-      allowRight: true,
-      allowLeft: true,
-    };
-    const swipeContainer = document.querySelector("#swipe");
+    <script>
+      const swipe = {
+        wrap: document.querySelector(".swipe-wrap"),
+        items: document.querySelectorAll(".swipe-item"),
+        width: document.querySelectorAll(".swipe-item")[0].offsetWidth,
+        move: 0,
+        speed: 250,
+        moveMax: document.querySelectorAll(".swipe-item")[0].length - 1,
+        moveStart: { x: 0, y: 0 },
+        moveEnd: { x: 0, y: 0 },
+        allowRight: true,
+        allowLeft: true,
+      };
+      const swipeContainer = document.querySelector("#swipe");
 
-    swipe.wrap.addEventListener("touchmove", (e) => {
-      swipe.allowRight = swipe.move === 2 ? false : true;
-      swipe.allowLeft = swipe.move === 0 ? false : true;
-      if (e.touches[0].pageX > swipe.moveStart.x) {
-        if (swipe.allowLeft) {
-          swipe.wrap.style.marginLeft =
-            e.touches[0].pageX -
-            swipe.moveStart.x +
-            swipe.speed +
-            window.innerWidth * swipe.move * -1 +
-            "px";
+      swipe.wrap.addEventListener("touchmove", (e) => {
+        swipe.allowRight = swipe.move === 2 ? false : true;
+        swipe.allowLeft = swipe.move === 0 ? false : true;
+        if (e.touches[0].pageX > swipe.moveStart.x) {
+          if (swipe.allowLeft) {
+            swipe.wrap.style.marginLeft =
+              e.touches[0].pageX -
+              swipe.moveStart.x +
+              swipe.speed +
+              window.innerWidth * swipe.move * -1 +
+              "px";
+          }
+        } else {
+          if (swipe.allowRight) {
+            swipe.wrap.style.marginLeft =
+              e.touches[0].pageX -
+              swipe.moveStart.x -
+              swipe.speed +
+              (window.innerWidth * swipe.move) / -1 +
+              "px";
+          }
         }
-      } else {
-        if (swipe.allowRight) {
-          swipe.wrap.style.marginLeft =
-            e.touches[0].pageX -
-            swipe.moveStart.x -
-            swipe.speed +
-            (window.innerWidth * swipe.move) / -1 +
-            "px";
-        }
-      }
-    });
+      });
 
-    swipe.wrap.addEventListener("touchstart", (e) => {
-      swipe.moveStart.x = e.touches[0].pageX;
-      swipe.moveStart.y = e.touches[0].pageY;
-    });
+      swipe.wrap.addEventListener("touchstart", (e) => {
+        swipe.moveStart.x = e.touches[0].pageX;
+        swipe.moveStart.y = e.touches[0].pageY;
+      });
 
-    /*
+      /*
     Swipe to the left or right
     */
 
-    swipe.wrap.addEventListener("touchend", (e) => {
-
-      swipe.moveEnd.x = e.changedTouches[0].pageX;
-      swipe.moveEnd.y = e.changedTouches[0].pageY;
-      if (
-        Math.abs(swipe.moveStart.x - swipe.moveEnd.x) >
-          window.innerWidth / 10 &&
-        Math.abs(swipe.moveStart.y - swipe.moveEnd.y) < window.innerHeight / 28
-      ) {
-        if (swipe.moveStart.x > swipe.moveEnd.x) {
-          if (swipe.move !== swipe.items.length - 1) {
-            swipe.move += 1;
-    indicator.active();
-
-          }
-        } else {
-          if (swipe.move !== 0) {
-            swipe.move -= 1;
-    indicator.active();
-
+      swipe.wrap.addEventListener("touchend", (e) => {
+        swipe.moveEnd.x = e.changedTouches[0].pageX;
+        swipe.moveEnd.y = e.changedTouches[0].pageY;
+        if (
+          Math.abs(swipe.moveStart.x - swipe.moveEnd.x) >
+            window.innerWidth / 10 &&
+          Math.abs(swipe.moveStart.y - swipe.moveEnd.y) <
+            window.innerHeight / 28
+        ) {
+          if (swipe.moveStart.x > swipe.moveEnd.x) {
+            if (swipe.move !== swipe.items.length - 1) {
+              swipe.move += 1;
+              indicator.active();
+            }
+          } else {
+            if (swipe.move !== 0) {
+              swipe.move -= 1;
+              indicator.active();
+            }
           }
         }
-      }
-      swipe.wrap.style.marginLeft = `-${swipe.move * 100}vw`;
-      /*
+        swipe.wrap.style.marginLeft = `-${swipe.move * 100}vw`;
+        /*
       Reset the position of the swipe-wrap
       */
-      swipe.wrap.style.left = 0;
-      swipe.moveEnd.x = 0;
-      swipe.moveEnd.y = 0;
-    });
-const indicator = {
-    container: document.querySelector(".indicator-container"),
-    items: document.querySelectorAll(".swipe-item"),
-    create: () => {
-      for (let i = 0; i < indicator.items.length; i++) {
-        const indicatorItem = document.createElement("div");
-        indicatorItem.classList.add("indicator-item");
-        indicator.container.appendChild(indicatorItem);
+        swipe.wrap.style.left = 0;
+        swipe.moveEnd.x = 0;
+        swipe.moveEnd.y = 0;
+      });
+      const indicator = {
+        container: document.querySelector(".indicator-container"),
+        items: document.querySelectorAll(".swipe-item"),
+        create: () => {
+          for (let i = 0; i < indicator.items.length; i++) {
+            const indicatorItem = document.createElement("div");
+            indicatorItem.classList.add("indicator-item");
+            indicator.container.appendChild(indicatorItem);
+          }
+        },
+        active: () => {
+          const indicatorItems = document.querySelectorAll(".indicator-item");
+          for (let i = 0; i < indicatorItems.length; i++) {
+            indicatorItems[i].classList.remove("active");
+          }
+          indicatorItems[swipe.move].classList.add("active");
+        },
+      };
+      indicator.create();
+      indicator.active();
+    </script>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
       }
-    },
-    active: () => {
-      const indicatorItems = document.querySelectorAll(".indicator-item");
-      for (let i = 0; i < indicatorItems.length; i++) {
-        indicatorItems[i].classList.remove("active");
+      #swipe {
+        width: 100%;
+        position: relative;
+        overflow: hidden;
       }
-      indicatorItems[swipe.move].classList.add("active");
-    },
-    };
-    indicator.create();
-    indicator.active();
-  </script>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-    }
-    #swipe {
-      width: 100%;
-      position: relative;
-      overflow: hidden;
-    }
-    .swipe-wrap {
-      position: relative;
-      display: flex;
-      flex-direction: row;
-      width: 100%;
-      transition: all 0.35s ease;
-    }
-    .swipe-item {
-      height: 50vh;
-      width: 100vw;
-      min-width: 100vw;
-    }
-    .swipe-item:nth-child(1) {
-      background: rgba(255, 0, 0, 0.589);
-    }
-    .swipe-item:nth-child(2) {
-      background: rgba(0, 255, 0, 0.493);
-    }
-    .swipe-item:nth-child(3) {
-      background: rgba(0, 0, 255, 0.493);
-    }
-    body {
-      margin: 0;
-      padding: 0;
-      min-width: 100vw;
-      min-height: 300vh;
-      background-color: #000;
-      overflow-x: hidden;
-    }
-    .indicator-container {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-      padding: 10px 0;
-    }
-    .indicator-item {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background-color: #fff;
-      margin: 0 15px;
-      border: solid 1px #000;
-      transition: all 0.35s ease;
-      box-shadow: 0 0 15px black;
-    }
-    .indicator-item.active {
-      background-color: rgb(0, 153, 255);
-      
-    }
-  </style>
+      .swipe-wrap {
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        transition: all 0.35s ease;
+      }
+      .swipe-item {
+        height: 50vh;
+        width: 100vw;
+        min-width: 100vw;
+      }
+      .swipe-item:nth-child(1) {
+        background: rgba(255, 0, 0, 0.589);
+      }
+      .swipe-item:nth-child(2) {
+        background: rgba(0, 255, 0, 0.493);
+      }
+      .swipe-item:nth-child(3) {
+        background: rgba(0, 0, 255, 0.493);
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        min-width: 100vw;
+        min-height: 300vh;
+        background-color: #000;
+        overflow-x: hidden;
+      }
+      .indicator-container {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 10px 0;
+      }
+      .indicator-item {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background-color: #fff;
+        margin: 0 15px;
+        border: solid 1px #000;
+        transition: all 0.35s ease;
+        box-shadow: 0 0 15px black;
+      }
+      .indicator-item.active {
+        background-color: rgb(0, 153, 255);
+      }
+    </style>
+  </body>
 </html>
